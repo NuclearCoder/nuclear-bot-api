@@ -1,6 +1,8 @@
 package nuclearbot.plugin;
 
-import java.util.Properties;
+import java.io.IOException;
+
+import nuclearbot.client.ChatClient;
 
 /*
  * Copyright (C) 2016 NuclearCoder
@@ -20,33 +22,21 @@ import java.util.Properties;
  */
 
 /**
- * NuclearBot (https://github.com/NuclearCoder/nuclear-bot/)<br>
- * @author NuclearCoder (contact on the GitHub repo)<br>
+ * Public API interface for a chat command executor.<br>
  * <br>
- * Plugin wrapper for a Plugin loaded from a JAR file.
+ * NuclearBot (https://github.com/NuclearCoder/nuclear-bot/)<br>
+ * @author NuclearCoder (contact on the GitHub repo)
  */
-public class JarPlugin extends JavaPlugin {
-	
-	private final String m_name;
-	private final String m_version;
-	
-	public JarPlugin(final Plugin plugin, final Properties properties)
-	{
-		super(plugin, false);
-		m_name = properties.getProperty("name");
-		m_version = properties.getProperty("version");
-	}
+public interface CommandExecutor {
 
-	@Override
-	public String getName()
-	{
-		return m_name;
-	}
-
-	@Override
-	public String getVersion()
-	{
-		return m_version;
-	}
+	/**
+	 * Listener for the commands this executor is bound to.
+	 * @param client the Twitch client
+	 * @param username the sender's username
+	 * @param command the command name
+	 * @param args the argument array
+	 * @throws IOException delegate exception handling to the client 
+	 */
+	public void onCommand(ChatClient client, String username, String command, String[] params) throws IOException;
 	
 }
