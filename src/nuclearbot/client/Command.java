@@ -1,9 +1,6 @@
-package nuclearbot.plugin;
+package nuclearbot.client;
 
-import java.io.IOException;
-
-import nuclearbot.client.ChatClient;
-import nuclearbot.client.Command;
+import nuclearbot.plugin.CommandExecutor;
 
 /*
  * Copyright (C) 2016 NuclearCoder
@@ -23,23 +20,34 @@ import nuclearbot.client.Command;
  */
 
 /**
- * Public API interface for a chat command executor.<br>
+ * Public API for a command.<br>
  * <br>
  * NuclearBot (https://github.com/NuclearCoder/nuclear-bot/)<br>
  * @author NuclearCoder (contact on the GitHub repo)
  */
-public interface CommandExecutor {
+public interface Command {
 
 	/**
-	 * Listener for the commands this executor is bound to.
-	 * @param client the Twitch client
-	 * @param username the sender's username
-	 * @param command the command instance
-	 * @param label the command name
-	 * @param args the argument array
-	 * @return true if the command succeeded
-	 * @throws IOException delegate exception handling to the client 
+	 * Returns the command's label.
+	 * This is the text following the exclamation mark.
+	 * For instance, if the command <code>!example</code>
+	 * is registered, it will return <code>"example"</code>.
+	 * @return the command label
 	 */
-	public boolean onCommand(ChatClient client, String username, Command command, String label, String[] args) throws IOException;
+	public String getLabel();
+	
+	/**
+	 * Returns the command's usage.
+	 * This is the text shown when the command fails.
+	 * The convention for arguments is &lt;required-argument&gt; [optional-argument].
+	 * @return the command label
+	 */
+	public String getUsage();
+	
+	/**
+	 * Returns the command's executor instance.
+	 * @return the command executor
+	 */
+	public CommandExecutor getExecutor();
 	
 }
