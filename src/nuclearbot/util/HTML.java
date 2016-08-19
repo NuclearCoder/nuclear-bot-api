@@ -1,4 +1,4 @@
-package nuclearbot.client;
+package nuclearbot.util;
 
 /*
  * Copyright (C) 2016 NuclearCoder
@@ -18,34 +18,47 @@ package nuclearbot.client;
  */
 
 /**
- * Public API interface for a chat listener.<br>
+ * Static class for escaping HTML text.<br>
  * <br>
  * NuclearBot (https://github.com/NuclearCoder/nuclear-bot/)<br>
  * @author NuclearCoder (contact on the GitHub repo)
  */
-public interface ChatListener {
+public class HTML {
 	
 	/**
-	 * Listener for client connected.
-	 * This method is called after the plugin's onStart method, before entering the client loop.
-	 * @param client the Twitch client
+	 * Escapes characters in an HTML string.
+	 * This method assumes that the string is encoded in UTF-8,
+	 * thus nothng other than &amp;&lt;&gt; need to be escaped.
+	 * @param s the string to HTML-escape
+	 * @return the corrected string
 	 */
-	public void onConnected(ChatClient client);
-	
-	/**
-	 * Listener for client disconnected.
-	 * This method is called after the plugin's onStop method, and after resources are released.
-	 * @param client the Twitch client
-	 */
-	public void onDisconnected(ChatClient client);
-	
-	/**
-	 * Listener for client chat message.
-	 * This method is called after the plugin's onMessage method.
-	 * @param client the Twitch client
-	 * @param username the sender's username
-	 * @param message the message
-	 */
-	public void onChat(ChatClient client, String username, String message);
+	public static String escapeText(final String s)
+	{
+		final int length = s.length();
+		final char[] chars = s.toCharArray();
+		final StringBuilder sb = new StringBuilder(Math.max(16, length));
+		char ch;
+		for (int i = 0; i < length; i++)
+		{
+			ch = chars[i];
+			if (ch == '&')
+			{
+				sb.append("&amp;");
+			}
+			else if (ch == '<')
+			{
+				sb.append("&lt;");
+			}
+			else if (ch == '>')
+			{
+				sb.append("&gt;");
+			}
+			else
+			{
+				sb.append(ch);
+			}
+		}
+		return sb.toString();
+	}
 	
 }

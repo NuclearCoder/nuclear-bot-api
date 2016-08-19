@@ -30,13 +30,22 @@ import nuclearbot.plugin.CommandExecutor;
 public interface ChatClient {
 	
 	/**
+	 * Returns the command which has the specified name.
+	 * The method returns null if there is no match.
+	 * @param label the command name
+	 * @return the command or null
+	 */
+	public Command getCommand(String label);
+	
+	/**
 	 * Registers a new command.
 	 * @param label the command name
 	 * @param usage the command usage
 	 * @param executor the command executor
+	 * @return the newly-created command
 	 * @throws IllegalArgumentException if the command was already registered
 	 */
-	public void registerCommand(String label, String usage, CommandExecutor executor);
+	public Command registerCommand(String label, String usage, CommandExecutor executor);
 	
 	/**
 	 * Unregisters a command.
@@ -46,30 +55,29 @@ public interface ChatClient {
 	public void unregisterCommand(String label);
 	
 	/**
-	 * Registers a new state listener.
-	 * @param stateListener the listener
+	 * Registers a new client listener.
+	 * @param listener the listener
 	 * @throws IllegalArgumentException if the listener was already registered
 	 */
-	public void registerChatListener(ChatListener stateListener);
+	public void registerClientListener(ClientListener listener);
 	
 	/**
-	 * Unregisters the given state listener.
-	 * @param stateListener the listener
+	 * Unregisters the given client listener.
+	 * @param listener the listener
 	 * @throws IllegalArgumentException if the listener was not registered
 	 */
-	public void unregisterChatListener(ChatListener stateListener);
+	public void unregisterClientListener(ClientListener listener);
 	
 	/**
-	 * Unregisters all state listeners.
+	 * Unregisters all client listeners.
 	 */
-	public void unregisterAllChatListeners();
+	public void unregisterAllClientListeners();
 
 	/**
 	 * Sends a chat message to the Twitch channel.
 	 * @param message the message to send
-	 * @throws IOException if the writer throws an IOException
 	 */
-	public void sendMessage(String msg) throws IOException;
+	public void sendMessage(String message);
 	
 	/**
 	 * Initiates the connection with the Twitch chat.
@@ -81,5 +89,5 @@ public interface ChatClient {
 	 * Notifies the client to stop.
 	 */
 	public void stop();
-		
+
 }
